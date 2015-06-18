@@ -2,11 +2,31 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title App
-    = stylesheet_link_tag 'application'
+    %title
+      = full_title(yield(:title))
+    = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
+    -# = render 'shim'
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600,700,300' rel='stylesheet' type='text/css'>
   %body
-    = yield
-    %p.notice= notice
-    %p.alert= alert
+    #container
+      %nav
+        %ul
+          %li= link_to "Audilogue", root_path
+          - if !logged_in?
+            - unless controller_name == "users" && action_name != "index"
+              %li= link_to "Sign Up", new_user_registration_path
+            - unless controller_name == "user_sessions"
+              %li= link_to "Sign In", new_user_session_path
+          - else
+            %li= link_to "Share Some Knowledge", new_post_path
+            %li= link_to "Sign Out", user_session_path, method: :delete
+      %header= content_for?(:page_title) ? content_for(:page_title) : "Page Title"
+      %section#content
+        - flash.each do |key, message|
+          %div{ class: "flash-#{key}" }= message
+        %article= yield
+      %footer
+        %p This is the #{link_to "Nashville Software School", "http://nashvillesoftwareschool.com"} Cohort 8 Class Project / Medium clone.
+        = link_to "View the code on Github", "https://github.com/elizabrock/median"
