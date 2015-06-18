@@ -280,6 +280,7 @@ PLATFORMS
 
 DEPENDENCIES
   bitters
+  bourbon
   byebug
   capybara
   coffee-rails (~> 4.1.0)

@@ -7,7 +7,6 @@
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
-    -# = render 'shim'
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600,700,300' rel='stylesheet' type='text/css'>
   %body
     #container
@@ -28,5 +27,5 @@
           %div{ class: "flash-#{key}" }= message
         %article= yield
       %footer
-        %p This is the #{link_to "Nashville Software School", "http://nashvillesoftwareschool.com"} Cohort 8 Class Project / Medium clone.
-        = link_to "View the code on Github", "https://github.com/elizabrock/median"
+        %p This is my senior capstone project for #{link_to "Nashville Software School", "http://nashvillesoftwareschool.com"} / Audilogue.
+        = link_to "View the code on Github", "https://github.com/erlandsona/Audilogue"
