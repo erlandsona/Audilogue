@@ -9,12 +9,13 @@
     = csrf_meta_tags
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600,700,300' rel='stylesheet' type='text/css'>
   %body
-    %h1= User.first.first_name
-    %h1= user_signed_in? ? "YES" : "NO"
+    -# %h1= User.first.first_name
+    -# %h1= user_signed_in? ? "YES" : "NO"
     #container
       %nav
         %ul
           %li= link_to "Audilogue", root_path
+          -# - debugger
           - if user_signed_in?
             %li= link_to "Profile", edit_user_registration_path
             %li= link_to "Sign Out", destroy_user_session_path, method: :delete
