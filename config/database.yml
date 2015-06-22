@@ -81,5 +81,4 @@ test:
 production:
   <<: *default
   database: Audilogue_production
-  username: Audilogue
-  password: <%= ENV['AUDILOGUE_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
