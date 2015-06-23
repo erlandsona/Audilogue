@@ -8,8 +8,6 @@
     = csrf_meta_tags
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600,700,300' rel='stylesheet' type='text/css'>
   %body
-    %p.notice= notice
-    %p.alert= alert
     #container
       %nav
         %ul
@@ -32,3 +30,8 @@
       %footer
         %p This is my senior capstone project for #{link_to "Nashville Software School", "http://nashvillesoftwareschool.com"}.
         = link_to "View the code on Github", "https://github.com/erlandsona/Audilogue"
+
+        %br
+        %br
+        %br
+        %p Hacker quote of the day! Brought to you by Faker gem!<br/>"#{Faker::Hacker.say_something_smart}"
