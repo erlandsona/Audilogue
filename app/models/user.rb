@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  validates :first_name, presence: true
-  validates :last_name,  presence: true
+  has_many :sounds, foreign_key: :creator_id
+
+  validates :last_name, :first_name, presence: true
 end
