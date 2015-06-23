@@ -1,0 +1,34 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Audilogue
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600,700,300' rel='stylesheet' type='text/css'>
+  %body
+    %p.notice= notice
+    %p.alert= alert
+    #container
+      %nav
+        %ul
+          %li= link_to "Audilogue", root_path
+          - if user_signed_in?
+            -# %li= link_to "Share Some Knowledge", new_post_path
+            -# %li#link_user= link_to "#{current_user.first_name}", user_posts_path(current_user)
+            %li#edit_user= link_to "Edit", edit_user_registration_path
+            %li#sign_out= link_to "Sign Out", destroy_user_session_path, method: :delete
+          - else
+            %li= link_to "Sign Up", new_user_registration_path
+            %li= link_to "Sign In", new_user_session_path
+      - background_image = @post ? @post.image_url.to_s : ""
+      %header{ :style => "background-image: url('#{background_image}')"}
+        = content_for?(:page_title) ? content_for(:page_title) : "Audilogue"
+      %section#content
+        - flash.each do |key, message|
+          %div{ class: "flash-#{key}" }= message
+        %article= yield
+      %footer
+        %p This is my senior capstone project for #{link_to "Nashville Software School", "http://nashvillesoftwareschool.com"}.
+        = link_to "View the code on Github", "https://github.com/erlandsona/Audilogue"
