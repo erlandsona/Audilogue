@@ -23,6 +23,9 @@
       - background_image = @post ? @post.image_url.to_s : ""
       %header{ :style => "background-image: url('#{background_image}')"}
         = content_for?(:page_title) ? content_for(:page_title) : "Audilogue"
+      - if Rails.env.development?
+        = debug(params)
+        = debug(flash) unless flash.empty?
       %section#content
         - flash.each do |key, message|
           %div{ class: "flash-#{key}" }= message

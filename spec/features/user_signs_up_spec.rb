@@ -2,88 +2,82 @@ feature "User Signs Up" do
 
   background do
     visit root_path
-    click_on "Sign Up"
+    within "nav" do
+      click_on "Sign Up"
+    end
   end
 
-  scenario "Happy Path With No Bio" do
+
+  scenario "Happy Path" do
+    user = Fabricate.build(:user)
+    fill_in "First Name", with: user.first_name
+    fill_in "Last Name", with: user.last_name
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    fill_in "Password Confirmation", with: user.password
+    within "form" do
+      click_button "Sign Up"
+    end
+    page.should have_content("Welcome! You have signed up successfully.")
     page.should_not have_link("Sign Up")
-    fill_in "Name", with: "Joe"
-    fill_in "Email", with: "joe@example.com"
-    fill_in "Username", with: "JoeSchmoe"
-    fill_in "Password", with: "password1"
-    fill_in "Password confirmation", with: "password1"
-    click_button "Sign Up"
-    page.should have_content("Welcome, Joe")
-    open_last_email
-    current_email == "joe@example.com"
-    current_email.should have_subject("Welcome to Median")
-    current_email.should have_body_text("We hope you're completely average.")
     current_path.should == root_path
     click_on "Sign Out"
     click_on "Sign In"
-    fill_in "Email", with: "joe@example.com"
-    fill_in "Password", with: "password1"
-    click_button "Sign In"
-    page.should have_content("Welcome back, Joe")
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    within "form" do
+      click_button "Sign In"
+    end
+    page.should have_content("Signed in successfully.")
   end
 
-  scenario "Happy Path With Bio" do
-    page.should_not have_link("Sign Up")
-    fill_in "Name", with: "Joe"
-    fill_in "Email", with: "joe@example.com"
-    fill_in "Username", with: "JoeSchmoe"
-    fill_in "Password", with: "password1"
-    fill_in "Password confirmation", with: "password1"
-    fill_in "Bio", with: Faker::Lorem.paragraph
-    click_button "Sign Up"
-    page.should have_content("Welcome, Joe")
-    click_on "Sign Out"
-    click_on "Sign In"
-    fill_in "Email", with: "joe@example.com"
-    fill_in "Password", with: "password1"
-    click_button "Sign In"
-    page.should have_content("Welcome back, Joe")
+  scenario "Error Path fill in with blanks" do
+    user = Fabricate.build(:user)
+    fill_in "First Name", with: ""
+    fill_in "Last Name", with: ""
+    fill_in "Email", with: ""
+    fill_in "Password", with: ""
+    fill_in "Password Confirmation", with: ""
+    within "form" do
+      click_button "Sign Up"
+    end
+    page.should have_alert("Please review the problems below:")
+
+    page.should have_error("can't be blank", on: "First Name")
+    page.should have_error("can't be blank", on: "Last Name")
+    page.should have_error("can't be blank", on: "Email")
+    page.should have_error("can't be blank", on: "Password")
+
+    fill_in "First Name", with: user.first_name
+    fill_in "Last Name", with: user.last_name
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    fill_in "Password confirmation", with: user.password
+    click_on "Sign Up"
+    page.should have_content("Welcome! You have signed up successfully.")
   end
 
-  scenario "Error Path" do
-    fill_in "Name", with: ""
+  scenario "Error Path fill in with bad email" do
+    user = Fabricate.build(:user)
+    fill_in "First Name", with: "!#$%LJASDFK"
+    fill_in "Last Name", with: "!#$%LJASDFK"
     fill_in "Email", with: "joeexample.com"
-    fill_in "Username", with: ""
-    fill_in "Password", with: "password1"
-    fill_in "Password confirmation", with: "food"
+    fill_in "Password", with: "as"
+    fill_in "Password Confirmation", with: ""
     click_on "Sign Up"
-    page.should have_alert("Please fix the errors below to continue.")
+    page.should have_alert("Please review the problems below:")
 
-    page.should have_error("can't be blank", on: "Name")
-    page.should have_error("must be an email address", on: "Email")
-    page.should have_error("can't be blank", on: "Username")
-    page.should have_error("doesn't match Password", on: "Password confirmation")
+    page.should have_error("invalid format", on: "Email")
+    page.should have_error("is too short (minimum is 8 characters)", on: "Password")
+    page.should have_error("doesn't match Password", on: "Password Confirmation")
 
-    fill_in "Name", with: "Sally"
-    fill_in "Email", with: "joe@example.com"
-    fill_in "Username", with: "SallySueMigoo"
-    fill_in "Password", with: "password1"
-    fill_in "Password confirmation", with: "password1"
+    fill_in "First Name", with: user.first_name
+    fill_in "Last Name", with: user.last_name
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    fill_in "Password Confirmation", with: user.password
     click_on "Sign Up"
-    page.should have_content("Welcome, Sally")
+    page.should have_content("Welcome! You have signed up successfully.")
   end
 
-  scenario "invalid username" do
-    fill_in "Name", with: "Brandon"
-    fill_in "Email", with: "joe@example.com"
-    fill_in "Username", with: "b rad"
-    fill_in "Password", with: "password1"
-    fill_in "Password confirmation", with: "password1"
-    click_on "Sign Up"
-    page.should have_alert("Please fix the errors below to continue.")
-    page.should have_error("can't have whitespace or special characters", on: "Username")
-
-    fill_in "Name", with: "Brandon"
-    fill_in "Email", with: "joe@example.com"
-    fill_in "Username", with: "brad"
-    fill_in "Password", with: "password1"
-    fill_in "Password confirmation", with: "password1"
-    click_on "Sign Up"
-    page.should have_content("Welcome, Brandon")
-  end
 end
