@@ -7,6 +7,7 @@ gem 'bitters'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0' #default
 gem 'devise'
+gem 'faker'
 gem 'haml-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
@@ -47,7 +48,6 @@ group :development, :test do
   gem 'byebug'
   gem 'erb2haml'
   gem 'fabrication'
-  gem 'faker'
   gem 'rspec-rails'
 
   # Guard is a watcher for your test files. Super cool...
