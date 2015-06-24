@@ -13,6 +13,7 @@ gem 'haml-rails'
 gem 'jbuilder', '~> 2.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'kaminari'
 gem 'neat'
 # Use postgresql as the database for Active Record
 gem 'pg' #default with postgresql:)
