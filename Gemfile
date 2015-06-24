@@ -6,8 +6,11 @@ gem 'bourbon'
 gem 'bitters'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0' #default
+gem 'carrierwave'
 gem 'devise'
 gem 'faker'
+gem 'figaro'
+gem 'fog'
 gem 'haml-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'

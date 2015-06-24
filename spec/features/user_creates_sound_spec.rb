@@ -1,6 +1,6 @@
 feature "user creates sound" do
   # Acceptance Criteria:
-  # * Post must have title, url, and creator
+  # * Post must have title, file, and creator
   # * Post must only be visible once saved to the creator
 
   scenario "logged out users can't create posts" do

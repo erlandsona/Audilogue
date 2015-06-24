@@ -3,7 +3,7 @@ class CreateSounds < ActiveRecord::Migration
     create_table :sounds do |t|
       t.references :creator, index: true
       t.string :title
-      t.text :url
+      t.string :file
 
       t.timestamps null: false
     end

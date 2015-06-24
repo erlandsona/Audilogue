@@ -1,5 +1,5 @@
 Fabricator(:sound) do
   creator { Fabricate(:user)    }
   title   { Faker::Lorem.word   }
-  url     { Faker::Internet.url }
+  file    { File.new(File.join(Rails.root, 'spec', 'support', 'files', 'myRecording04.wav')) }
 end
