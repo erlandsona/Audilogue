@@ -12,4 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//= require jquery.infinitescroll
+//= require recordrtc/RecordRTC
+//= require audiodisplay
+//= require main_recorder
+//= require sounds

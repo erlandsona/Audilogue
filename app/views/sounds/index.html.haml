@@ -1,0 +1,23 @@
+- content_for(:page_title) do
+  %h1 Sounds
+
+%div.profile-container
+  -# =gravatar_for @user
+  %h2 #{current_user.first_name}
+
+  %button#record-audio Record
+  %button{id: "pause-resume-audio", disabled: ""}Pause
+  %button{id: "stop-recording-audio", disabled: ""}Stop
+
+  #viz
+    %canvas{id: "analyser", width: "400", height: "100"}
+    %canvas{id: "wavedisplay", width: "400", height: "100"}
+
+= paginate @sounds
+
+%ul.sounds-pagination
+  - @sounds.each do |sound|
+    %li= sound.title
+    %div.inner
+      %audio{id: "audio", autoplay: "", controls: ""}
+      %h2#audio-url-preview
