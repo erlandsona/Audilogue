@@ -19,7 +19,7 @@ module Features
       else
         page.driver.follow(:post, user_session_url, { user: { email: user.email, password: password } })
       end
-      page.should have_content("Welcome back")
+      page.should have_content("Signed in successfully.")
     end
 
     def signout

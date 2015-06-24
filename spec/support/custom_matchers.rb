@@ -23,6 +23,6 @@ RSpec::Matchers.define :have_notice do |expected, options|
 end
 
 def should_be_denied_access
-  current_path.should == root_path
-  page.should have_alert("You do not have permission to access that page.")
+  current_path.should == new_user_session_path
+  page.should have_alert("You need to sign in or sign up before continuing.")
 end
