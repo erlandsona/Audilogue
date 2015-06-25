@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.infinitescroll
 //= require recordrtc/RecordRTC
 //= require recorderjs/recorder
 //= require recorderjs/recorderWorker
