@@ -1,4 +1,4 @@
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
+// window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 
 var audioContext = new AudioContext(),
@@ -8,26 +8,26 @@ var audioContext = new AudioContext(),
     canvasWidth, canvasHeight,
     recIndex = 0;
 
-function saveAudio() {
-  audioRecorder.exportWAV( doneEncoding );
-  // could get mono instead by saying
-  // audioRecorder.exportMonoWAV( doneEncoding );
-}
+// function saveAudio() {
+//   audioRecorder.exportWAV( doneEncoding );
+//   // could get mono instead by saying
+//   // audioRecorder.exportMonoWAV( doneEncoding );
+// }
 
-function doneEncoding( blob ) {
-  Recorder.setupDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
-  recIndex++;
-}
+// function doneEncoding( blob ) {
+//   Recorder.setupDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+//   recIndex++;
+// }
 
-function convertToMono( input ) {
-  var splitter = audioContext.createChannelSplitter(2);
-  var merger = audioContext.createChannelMerger(2);
+// function convertToMono( input ) {
+//   var splitter = audioContext.createChannelSplitter(2);
+//   var merger = audioContext.createChannelMerger(2);
 
-  input.connect( splitter );
-  splitter.connect( merger, 0, 0 );
-  splitter.connect( merger, 0, 1 );
-  return merger;
-}
+//   input.connect( splitter );
+//   splitter.connect( merger, 0, 0 );
+//   splitter.connect( merger, 0, 1 );
+//   return merger;
+// }
 
 
 //   pauseResumeAudio.onclick = function() {
@@ -131,6 +131,7 @@ $(document).ready(function () {
   var recordPauseAudio      = getById('record-pause-audio'),
       stopRecordingAudio    = getById('stop-recording-audio'),
       audio                 = getById('audio'),
+      saveAudio             = getById('sound_file'),
       audioStream,
       recorder;
 
@@ -151,21 +152,21 @@ $(document).ready(function () {
     }
   }
 
-  function toggleRecording( e ) {
-    if (e.classList.contains("recording")) {
-      // stop recording
-      audioRecorder.stop();
-      e.classList.remove("recording");
-      audioRecorder.getBuffers( gotBuffers );
-    } else {
-      // start recording
-      if (!audioRecorder)
-          return;
-      e.classList.add("recording");
-      audioRecorder.clear();
-      audioRecorder.record();
-    }
-  }
+  // function toggleRecording( e ) {
+  //   if (e.classList.contains("recording")) {
+  //     // stop recording
+  //     audioRecorder.stop();
+  //     e.classList.remove("recording");
+  //     audioRecorder.getBuffers( gotBuffers );
+  //   } else {
+  //     // start recording
+  //     if (!audioRecorder)
+  //         return;
+  //     e.classList.add("recording");
+  //     audioRecorder.clear();
+  //     audioRecorder.record();
+  //   }
+  // }
 
   function gotBuffers( buffers ) {
     var canvas = getById("wavedisplay");
@@ -286,7 +287,6 @@ $(document).ready(function () {
     stopRecordingAudio.disabled = false;
   };
 
-
   stopRecordingAudio.onclick = function() {
     this.disabled = true;
     recordPauseAudio.disabled = false;
@@ -294,10 +294,27 @@ $(document).ready(function () {
 
     if (recorder) {
       recorder.stopRecording(function(url) {
-        audio.src = url;
-        audio.muted = false;
-        audio.play();
+        $.ajax({
+          type: "POST",
+          url: "/sounds",
+          data: {
+            sound: {
+              title: $("#sound_title").val(),
+              file: url
+            }
+          },
+          complete: function (data) {
+            $("#main").html(data.responseText);
+          },
+          dataType: "JSON"
+        });
+        // audio.src = url;
+        // audio.muted = false;
+        // audio.play();
+        // debugger;
       });
     }
   };
 });
+
+

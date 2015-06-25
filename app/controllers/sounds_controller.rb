@@ -1,42 +1,43 @@
 class SoundsController < ApplicationController
-  before_action :load_sound
   before_action :authenticate_user!
 
   def index
+    @sound = Sound.new
     @sounds = current_user.sounds.page(params[:page]).per(PER_PAGE)
-    unless current_user == current_user
-      @sounds = @sounds.published
-    end
   end
 
+#   def create
+#     @sound = current_user.sounds.new(sound_params)
+#     if @sound.save
+#       @sound = Sound.new
+#       flash.now[:notice] = "Your sound was saved."
+#     else
+#       flash.now[:alert] = "Your sound could not be saved."
+#     end
+#     @sounds = current_user.sounds.page(params[:page]).per(PER_PAGE)
+#     render :index
+#     respond_to :js
+#   end
+
+
   def create
-    @sound.author = current_user
-    if @sound.save
-      message = "Your knowledge has been published."
-      @sound.publish!
-      redirect_to user_sounds_path(current_user), notice: message
-    else
-      flash.alert = "Your knowledge could not be published. Please correct the errors below."
-      render :new
+    @sound = current_user.sounds.new(sound_params)
+    respond_to do |format|
+      if @sound.save
+        @sound = Sound.new
+        @sounds = current_user.sounds.page(params[:page]).per(PER_PAGE)
+        flash.now[:notice] = "Your sound was saved."
+        format.js { render :index }
+      else
+        @sounds = current_user.sounds.page(params[:page]).per(PER_PAGE)
+        flash.now[:alert] = "Your sound could not be saved."
+        format.js { render :index }
+      end
     end
   end
 
 
 private
-
-
-  def load_sound
-    if params[:id].present?
-      @sound = Sound.find(params[:id])
-
-    else
-      @sound = Sound.new
-    end
-
-    if params[:sound].present?
-      @sound.assign_attributes(sound_params)
-    end
-  end
 
   def sound_params
     params.require(:sound).permit(:title, :file)

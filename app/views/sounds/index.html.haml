@@ -11,8 +11,9 @@
 
   = simple_form_for @sound, :html => {:multipart => true} do |f|
     = f.input :title
-    = f.hidden_field :file, id: "saveAudio"
+    = f.input :file, as: :file
     = f.button :submit, "Publish Knowledge"
+
 
   #viz
     %canvas{id: "analyser", width: "400", height: "300"}
@@ -24,4 +25,4 @@
     %li= sound.title
     .inner
       %audio{id: "audio", controls: ""}
-      %canvas{id: "wavedisplay", width: "400", height: "100"}
+      -# %canvas{id: "wavedisplay", width: "400", height: "100"}

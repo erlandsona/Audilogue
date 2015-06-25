@@ -23,18 +23,16 @@
       - background_image = @post ? @post.image_url.to_s : ""
       %header{ :style => "background-image: url('#{background_image}')"}
         = content_for?(:page_title) ? content_for(:page_title) : "Audilogue"
-      - if Rails.env.development?
-        = debug(params)
-        = debug(flash) unless flash.empty?
+      -# - if Rails.env.development?
+      -#   = debug(params)
+      -#   = debug(flash) unless flash.empty?
       %section#content
         - flash.each do |key, message|
           %div{ class: "flash-#{key}" }= message
-        %article= yield
+        %article#main= yield
       %footer
         %p This is my senior capstone project for #{link_to "Nashville Software School", "http://nashvillesoftwareschool.com"}.
         = link_to "View the code on Github", "https://github.com/erlandsona/Audilogue"
-
         %br
         %br
-        %br
-        %p Hacker quote of the day! Brought to you by Faker gem!<br/>"#{Faker::Hacker.say_something_smart}"
+        %p Hacker quotes brought to you by the Faker gem!<br/>"#{Faker::Hacker.say_something_smart}"
