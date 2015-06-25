@@ -5,7 +5,8 @@
   -# =gravatar_for @user
   %h2 #{current_user.first_name}
 
-  %button#record-pause-audio{onclick: "toggleRecording(this);"}Record
+  %button#record-pause-audio Record
+  - #{onclick: "toggleRecording(this);"}
   %button{id: "stop-recording-audio", disabled: ""}Done
 
   = simple_form_for @sound, :html => {:multipart => true} do |f|
