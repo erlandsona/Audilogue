@@ -196,21 +196,26 @@ function initializeAudioRecorder() {
 
     if (recorder) {
       recorder.stopRecording(function(url) {
-        $.ajax({
-          type: "POST",
-          url: "/sounds",
-          data: {
-            sound: {
-              title: $("#sound_title").val(),
-              file: url
-            }
-          },
-          complete: function (data) {
-            $("#main").html(data.responseText);
-            initializeAudioRecorder();
-          },
-          dataType: "JSON"
-        });
+        var blob = recorder.getBlob();
+        var formData = new FormData();
+        formData.append('sound[file]', blob);
+        formData.append('sound[title]', $('#sound_title').val());
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/sounds");
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+        xhr.send(formData);
+
+        // $.ajax({
+        //   type: "POST",
+        //   url: "/sounds",
+        //   data: formData,
+        //   complete: function (data) {
+        //     $("#main").html(data.responseText);
+        //     initializeAudioRecorder();
+        //   },
+        //   dataType: "JSON"
+        // });
         // audio.src = url;
         // audio.muted = false;
         // audio.play();
