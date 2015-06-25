@@ -8,11 +8,9 @@
   %button#record-pause-audio Record
   - #{onclick: "toggleRecording(this);"}
   %button{id: "stop-recording-audio", disabled: ""}Done
+  %label{for: "sound_title"}Title
+  %input#sound_title{type: "text"}
 
-  = simple_form_for @sound, :html => {:multipart => true} do |f|
-    = f.input :title
-    = f.input :file, as: :file
-    = f.button :submit, "Publish Knowledge"
 
 
   #viz
@@ -21,8 +19,4 @@
 = paginate @sounds
 
 %ul.sounds-pagination
-  - @sounds.each do |sound|
-    %li= sound.title
-    .inner
-      %audio{id: "audio", controls: ""}
-      -# %canvas{id: "wavedisplay", width: "400", height: "100"}
+  = render @sounds

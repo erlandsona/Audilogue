@@ -10,7 +10,7 @@ function initializeAudioRecorder() {
       canvasWidth, canvasHeight,
       recordPauseAudio      = getById('record-pause-audio'),
       stopRecordingAudio    = getById('stop-recording-audio'),
-      audio                 = getById('audio'),
+      // audio                 = getById('audio'),
       saveAudio             = getById('sound_file'),
       audioStream,
       recorder;
@@ -177,9 +177,9 @@ function initializeAudioRecorder() {
       this.innerHTML = 'Pause';
       recorder.resumeRecording();
 
-      audio.src = URL.createObjectURL(audioStream);
-      audio.muted = true;
-      audio.play();
+      // audio.src = URL.createObjectURL(audioStream);
+      // audio.muted = true;
+      // audio.play();
       // if (recorder) recorder.startRecording();
     }
 
@@ -192,7 +192,7 @@ function initializeAudioRecorder() {
   stopRecordingAudio.onclick = function() {
     this.disabled = true;
     recordPauseAudio.disabled = false;
-    audio.src = '';
+    // audio.src = '';
 
     if (recorder) {
       recorder.stopRecording(function(url) {
@@ -205,21 +205,9 @@ function initializeAudioRecorder() {
         xhr.open("POST", "/sounds");
         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
         xhr.send(formData);
-
-        // $.ajax({
-        //   type: "POST",
-        //   url: "/sounds",
-        //   data: formData,
-        //   complete: function (data) {
-        //     $("#main").html(data.responseText);
-        //     initializeAudioRecorder();
-        //   },
-        //   dataType: "JSON"
-        // });
-        // audio.src = url;
-        // audio.muted = false;
-        // audio.play();
-        // debugger;
+        xhr.onload = function (event) {
+          $('#main').html(event.target.responseText);
+        }
       });
     }
   };
