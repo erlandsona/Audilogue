@@ -12,9 +12,6 @@
 !/log/.keep
 /tmp
 
-# Ignore vendor scripts
-vendor
-
 # Ignore application configuration
 /config/application.yml
 spec/support/files
