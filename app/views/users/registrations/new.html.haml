@@ -1,3 +1,6 @@
+- flash.each do |key, message|
+  %div{ class: "flash-#{key}" }= message
+
 - content_for :page_title do
   %h1 Sign Up
 

@@ -1,20 +1,24 @@
+- flash.each do |key, message|
+  %div{ class: "flash-#{key}" }= message
+
 - content_for(:page_title) do
-  %h1 Sounds
+  #viz
+    %h1 Sounds
+    %canvas{id: "analyser", width: "400", height: "300"}
 
 %div.profile-container
   -# =gravatar_for @user
   %h2 #{current_user.first_name}
 
-  %button#record-pause-audio Record
-  - #{onclick: "toggleRecording(this);"}
-  %button{id: "stop-recording-audio", disabled: ""}Done
-  %label{for: "sound_title"}Title
-  %input#sound_title{type: "text"}
 
+  %button#record-pause-audio{type: "button"}Record
+  %button{id: "stop-recording-audio", disabled: "", type: "button"}Done
+  %form
+    %label{for: "sound_title"}Title
+    %input#sound_title{type: "text"}
+  - @sound.errors.full_messages.each do |message|
+    %div= message
 
-
-  #viz
-    %canvas{id: "analyser", width: "400", height: "300"}
 
 = paginate @sounds
 

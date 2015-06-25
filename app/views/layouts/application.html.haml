@@ -13,22 +13,14 @@
         %ul
           %li= link_to "Audilogue", root_path
           - if user_signed_in?
-            -# %li= link_to "Share Some Knowledge", new_post_path
-            -# %li#link_user= link_to "#{current_user.first_name}", user_posts_path(current_user)
             %li#edit_user= link_to "Edit", edit_user_registration_path
             %li#sign_out= link_to "Sign Out", destroy_user_session_path, method: :delete
           - else
             %li= link_to "Sign Up", new_user_registration_path
             %li= link_to "Sign In", new_user_session_path
-      - background_image = @post ? @post.image_url.to_s : ""
-      %header{ :style => "background-image: url('#{background_image}')"}
+      %header
         = content_for?(:page_title) ? content_for(:page_title) : "Audilogue"
-      -# - if Rails.env.development?
-      -#   = debug(params)
-      -#   = debug(flash) unless flash.empty?
       %section#content
-        - flash.each do |key, message|
-          %div{ class: "flash-#{key}" }= message
         %article#main= yield
       %footer
         %p This is my senior capstone project for #{link_to "Nashville Software School", "http://nashvillesoftwareschool.com"}.
