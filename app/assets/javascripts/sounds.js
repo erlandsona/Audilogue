@@ -2,21 +2,10 @@ $(document).ready(function () {
   initializeAudioRecorder();
 });
 
+
+
+
 function initializeAudioRecorder() {
-  var audioContext = new AudioContext(),
-      realAudioInput, inputPoint, audioRecorder,
-      rafID,
-      analyserContext,
-      canvasWidth, canvasHeight,
-      recordPauseAudio      = getById('record-pause-audio'),
-      stopRecordingAudio    = getById('stop-recording-audio'),
-      // audio                 = getById('audio'),
-      saveAudio             = getById('sound_file'),
-      audioStream,
-      recorder;
-
-
-
   (function() {
     var params = {},
         r = /([^&=]+)=?([^&]*)/g;
@@ -36,6 +25,17 @@ function initializeAudioRecorder() {
     return document.getElementById(id);
   }
 
+  var audioContext = new AudioContext(),
+      realAudioInput, inputPoint, audioRecorder,
+      rafID,
+      analyserContext,
+      canvasWidth, canvasHeight,
+      recordPauseAudio      = getById('record-pause-audio'),
+      stopRecordingAudio    = getById('stop-recording-audio'),
+      // audio                 = getById('audio'),
+      saveAudio             = getById('sound_file'),
+      audioStream,
+      recorder;
 
   function drawBuffer( width, height, context, data ) {
     var step = Math.ceil( data.length / width );
@@ -207,6 +207,7 @@ function initializeAudioRecorder() {
         xhr.send(formData);
         xhr.onload = function (event) {
           $('#main').html(event.target.responseText);
+          initializeAudioRecorder();
         }
       });
     }
