@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   # resources :home do
-  resources :sounds, only: [:index, :create]
+  resources :sounds, only: [:index, :create, :destroy]
   # end
 
   # Example of regular route:
