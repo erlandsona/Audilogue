@@ -48,13 +48,13 @@ body {
           flex-direction: column;
           justify-content: space-around;
           align-items: center;
-          canvas {
-            display: inline-block;
-            background: #202020;
-            width: 95%;
-            height: 45%;
-            box-shadow: 0px 0px 10px blue;
-          }
+        }
+        canvas {
+          display: inline-block;
+          background: #202020;
+          width: 95%;
+          height: 45%;
+          box-shadow: 0px 0px 10px blue;
         }
       }
     }

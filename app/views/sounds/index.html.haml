@@ -5,19 +5,22 @@
   -# =gravatar_for @user
   %h2 #{current_user.first_name}
 
-  %button#record-audio Record
-  %button{id: "pause-resume-audio", disabled: ""}Pause
-  %button{id: "stop-recording-audio", disabled: ""}Stop
+  %button#record-pause-audio{onclick: "toggleRecording(this);"}Record
+  %button{id: "stop-recording-audio", disabled: ""}Done
+
+  = simple_form_for @sound, :html => {:multipart => true} do |f|
+    = f.input :title
+    = f.hidden_field :file, id: "saveAudio"
+    = f.button :submit, "Publish Knowledge"
 
   #viz
-    %canvas{id: "analyser", width: "400", height: "100"}
-    %canvas{id: "wavedisplay", width: "400", height: "100"}
+    %canvas{id: "analyser", width: "400", height: "300"}
 
 = paginate @sounds
 
 %ul.sounds-pagination
   - @sounds.each do |sound|
     %li= sound.title
-    %div.inner
-      %audio{id: "audio", autoplay: "", controls: ""}
-      %h2#audio-url-preview
+    .inner
+      %audio{id: "audio", controls: ""}
+      %canvas{id: "wavedisplay", width: "400", height: "100"}
