@@ -1,22 +1,114 @@
+// window.AudioContext = window.AudioContext || window.webkitAudioContext;
+
+
+var audioContext = new AudioContext(),
+    realAudioInput, inputPoint, audioRecorder,
+    rafID,
+    analyserContext,
+    canvasWidth, canvasHeight,
+    recIndex = 0;
+
+// function saveAudio() {
+//   audioRecorder.exportWAV( doneEncoding );
+//   // could get mono instead by saying
+//   // audioRecorder.exportMonoWAV( doneEncoding );
+// }
+
+// function doneEncoding( blob ) {
+//   Recorder.setupDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+//   recIndex++;
+// }
+
+// function convertToMono( input ) {
+//   var splitter = audioContext.createChannelSplitter(2);
+//   var merger = audioContext.createChannelMerger(2);
+
+//   input.connect( splitter );
+//   splitter.connect( merger, 0, 0 );
+//   splitter.connect( merger, 0, 1 );
+//   return merger;
+// }
+
+
+//   pauseResumeAudio.onclick = function() {
+//     if (!recorder) return;
+
+//     if (this.innerHTML === 'Pause') {
+//       this.innerHTML = 'Resume';
+//       recorder.pauseRecording();
+//       return;
+//     }
+
+//     this.innerHTML = 'Pause';
+//     recorder.resumeRecording();
+//   };
+
+
+
+// function toggleMono() {
+//   if (audioInput != realAudioInput) {
+//     audioInput.disconnect();
+//     realAudioInput.disconnect();
+//     audioInput = realAudioInput;
+//   } else {
+//     realAudioInput.disconnect();
+//     audioInput = convertToMono( realAudioInput );
+//   }
+//   audioInput.connect(inputPoint);
+// }
+
+// function gotStream(stream) {
+//   inputPoint = audioContext.createGain();
+
+//   // Create an AudioNode from the stream.
+//   realAudioInput = audioContext.createMediaStreamSource(stream);
+//   realAudioInput.connect(inputPoint);
+
+//   // audioInput = convertToMono( input );
+
+//   analyserNode = audioContext.createAnalyser();
+//   analyserNode.fftSize = 2048;
+//   inputPoint.connect( analyserNode );
+
+//   audioRecorder = new Recorder( inputPoint );
+
+//   zeroGain = audioContext.createGain();
+//   zeroGain.gain.value = 0.0;
+//   inputPoint.connect( zeroGain );
+//   zeroGain.connect( audioContext.destination );
+//   updateAnalysers();
+// }
+
+
+// function initAudio() {
+//   if (!navigator.getUserMedia)
+//       navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+//   if (!navigator.cancelAnimationFrame)
+//       navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
+//   if (!navigator.requestAnimationFrame)
+//       navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
+
+//   navigator.getUserMedia({
+//     "audio": {
+//       "mandatory": {
+//         "googEchoCancellation": "false",
+//         "googAutoGainControl": "false",
+//         "googNoiseSuppression": "false",
+//         "googHighpassFilter": "false"
+//       },
+//       "optional": []
+//     },
+//   }, gotStream, function (error) {
+//     alert('Error getting audio');
+//     console.log(error);
+//   });
+// }
+
+// window.addEventListener('load', initAudio );
+
+
+
 $(document).ready(function () {
-  initializeAudioRecorder();
-});
-
-function initializeAudioRecorder() {
-  var audioContext = new AudioContext(),
-      realAudioInput, inputPoint, audioRecorder,
-      rafID,
-      analyserContext,
-      canvasWidth, canvasHeight,
-      recordPauseAudio      = getById('record-pause-audio'),
-      stopRecordingAudio    = getById('stop-recording-audio'),
-      audio                 = getById('audio'),
-      saveAudio             = getById('sound_file'),
-      audioStream,
-      recorder;
-
-
-
   (function() {
     var params = {},
         r = /([^&=]+)=?([^&]*)/g;
@@ -36,6 +128,12 @@ function initializeAudioRecorder() {
     return document.getElementById(id);
   }
 
+  var recordPauseAudio      = getById('record-pause-audio'),
+      stopRecordingAudio    = getById('stop-recording-audio'),
+      audio                 = getById('audio'),
+      saveAudio             = getById('sound_file'),
+      audioStream,
+      recorder;
 
   function drawBuffer( width, height, context, data ) {
     var step = Math.ceil( data.length / width );
@@ -207,7 +305,6 @@ function initializeAudioRecorder() {
           },
           complete: function (data) {
             $("#main").html(data.responseText);
-            initializeAudioRecorder();
           },
           dataType: "JSON"
         });
@@ -218,6 +315,6 @@ function initializeAudioRecorder() {
       });
     }
   };
-}
+});
 
 
