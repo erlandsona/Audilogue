@@ -86,7 +86,12 @@ function initializeAudioRecorder() {
         updateSizes();
     });
 
-
+    $('#sound_title').bind('keypress keydown keyup', function(e){
+      if (e.keyCode == 13) {
+        e.preventDefault();
+        stopRecordingAudio.autofocus = true;
+      }
+    });
 
 
   function updateAnalysers(time) {
@@ -160,7 +165,7 @@ function initializeAudioRecorder() {
         analyserNode.fftSize = 2048;
         inputPoint.connect( analyserNode );
 
-        audioRecorder = new Recorder( inputPoint );
+        // audioRecorder = new Recorder( inputPoint );
 
         zeroGain = audioContext.createGain();
         zeroGain.gain.value = 0.0;
@@ -194,7 +199,8 @@ function initializeAudioRecorder() {
     this.disabled = true;
     recordPauseAudio.disabled = false;
     cancelAnalyserUpdates();
-    recordPauseAudio.innerHTML = "Record"
+    recordPauseAudio.innerHTML = "Record";
+    
 
     if (recorder) {
       recorder.stopRecording(function(url) {

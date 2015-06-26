@@ -2,13 +2,16 @@ body {
   background-color: #FDFDFD;
   margin: 0;
   padding: 0 1em;
+  input:-webkit-autofill {
+    background-color: $light-gray;
+    -webkit-box-shadow: 0 0 0px 1000px $light-gray inset;
+    -webkit-text-fill-color: blue;
+    -webkit-tap-highlight-color: blue;
+  }
   #container {
     @include outer-container;
     nav, header, section#content, footer {
       @include span-columns(12);
-    }
-    input:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px $light-gray inset;
     }
     nav {
       background-color: $white;

@@ -13,6 +13,4 @@
 //= require jquery
 //= require jquery_ujs
 //= require recordrtc/RecordRTC
-//= require recorderjs/recorder
-//= require recorderjs/recorderWorker
 //= require sounds
