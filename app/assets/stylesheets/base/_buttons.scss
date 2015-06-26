@@ -18,6 +18,7 @@ button {
   vertical-align: middle;
   white-space: nowrap;
 
+
   &:hover,
   &:focus {
     background-color: darken($action-color, 15%);
@@ -27,5 +28,55 @@ button {
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;
+  }
+}
+
+.record-button {
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+  margin-left: -87.5px;
+  left: 50%;
+  border-radius: 50%;
+  border: 17px solid #EEE;
+  width: 175px;
+  height: 175px;
+  #record-pause-audio {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    background-color: red;
+    font-size:1.5em;
+    padding: 0px;
+    &:active, &:focus {
+      outline: 0;
+      border-radius: 25%;
+      width: 90px;
+      height: 90px;
+    }
+  }
+}
+
+.stop-record-button {
+  display: inline-block;
+  float: right;
+  width: 175px;
+  height: 175px;
+  border: 17px solid transparent;
+  #stop-recording-audio {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 130px;
+    height: 130px;
+    background-color:transparent;
+    cursor:pointer;
+    color:#ffffff;
+    font-size:1.5em;
+    padding:13px 31px;
+    text-decoration:none;
   }
 }

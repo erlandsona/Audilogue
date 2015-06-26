@@ -1,5 +1,11 @@
-%li= sound.title
-.inner
-  %audio{src: sound.file.url, controls: ""}
-  = link_to "Delete", sound_path(sound), method: :delete,
-    data: {confirm: "Are you sure you want to delete this sound?"}
+%li
+  %strong= sound.title
+  %p= "created at #{sound.created_at.strftime("%l:%M %P on %b %e, %Y")}"
+  .inner
+    %audio{src: sound.file.url, controls: ""}
+    = link_to image_tag("Rubbish_bin_64_black.png", class: "trash-icon", alt: "Trash", width: "32", height: "32"),
+      sound_path(sound),
+      class: "trash-link",
+      method: :delete,
+      data: {confirm: "Are you sure you want to delete this sound?"}
+    -# %hr
