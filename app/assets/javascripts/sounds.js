@@ -32,7 +32,6 @@ function initializeAudioRecorder() {
       canvasWidth, canvasHeight,
       recordPauseAudio      = getById('record-pause-audio'),
       stopRecordingAudio    = getById('stop-recording-audio'),
-      // audio                 = getById('audio'),
       saveAudio             = getById('sound_file'),
       audioStream,
       recorder;
@@ -54,29 +53,9 @@ function initializeAudioRecorder() {
     }
   }
 
-  // function toggleRecording( e ) {
-  //   if (e.classList.contains("recording")) {
-  //     // stop recording
-  //     audioRecorder.stop();
-  //     e.classList.remove("recording");
-  //     audioRecorder.getBuffers( gotBuffers );
-  //   } else {
-  //     // start recording
-  //     if (!audioRecorder)
-  //         return;
-  //     e.classList.add("recording");
-  //     audioRecorder.clear();
-  //     audioRecorder.record();
-  //   }
-  // }
-
   function gotBuffers( buffers ) {
     var canvas = getById("wavedisplay");
     drawBuffer( canvas.width, canvas.height, canvas.getContext('2d'), buffers[0] );
-
-    // the ONLY time gotBuffers is called is right after a new recording is completed -
-    // so here's where we should set up the download.
-    // audioRecorder.exportWAV( doneEncoding );
   }
 
   function cancelAnalyserUpdates() {
@@ -84,9 +63,35 @@ function initializeAudioRecorder() {
     rafID = null;
   }
 
+    // get viewport size
+    getViewportSize = function() {
+        return {
+            height: $("#viz").height(),
+            width:  $("#viz").width()
+        };
+    };
+
+    // update canvas size
+    updateSizes = function() {
+        var viewportSize = getViewportSize();
+        $('#analyser').width(viewportSize.width).height(viewportSize.height);
+        $('#analyser').attr('width', viewportSize.width).attr('height', viewportSize.height);
+    };
+
+    // run on load
+    updateSizes();
+
+    // handle window resizing
+    $(window).on('resize', function() {
+        updateSizes();
+    });
+
+
+
+
   function updateAnalysers(time) {
     if (!analyserContext) {
-      var canvas = getById("analyser");
+      var canvas = $("#analyser")[0];
       canvasWidth = canvas.width;
       canvasHeight = canvas.height;
       analyserContext = canvas.getContext('2d');
@@ -171,28 +176,25 @@ function initializeAudioRecorder() {
       if(this.innerHTML === 'Pause') {
         this.innerHTML = 'Resume';
         recorder.pauseRecording();
+        cancelAnalyserUpdates();
         return;
       }
 
       this.innerHTML = 'Pause';
       recorder.resumeRecording();
-
-      // audio.src = URL.createObjectURL(audioStream);
-      // audio.muted = true;
-      // audio.play();
-      // if (recorder) recorder.startRecording();
+      updateAnalysers();
     }
 
     window.isAudio = true;
 
-    // this.disabled = true;
     stopRecordingAudio.disabled = false;
   };
 
   stopRecordingAudio.onclick = function() {
     this.disabled = true;
     recordPauseAudio.disabled = false;
-    // audio.src = '';
+    cancelAnalyserUpdates();
+    recordPauseAudio.innerHTML = "Record"
 
     if (recorder) {
       recorder.stopRecording(function(url) {

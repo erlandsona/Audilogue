@@ -3,7 +3,7 @@ class SoundsController < ApplicationController
 
   def index
     @sound = Sound.new
-    @sounds = current_user.sounds.page(params[:page]).per(PER_PAGE)
+    @sounds = current_user.sounds.order("created_at DESC").page(params[:page]).per(PER_PAGE)
   end
 
   def create
@@ -11,11 +11,11 @@ class SoundsController < ApplicationController
     respond_to do |format|
       if @sound.save
         @sound = Sound.new
-        @sounds = current_user.sounds.page(params[:page]).per(PER_PAGE)
+        @sounds = current_user.sounds.order("created_at DESC").page(params[:page]).per(PER_PAGE)
         flash.now[:notice] = "Your sound was saved."
         format.js { render :index }
       else
-        @sounds = current_user.sounds.page(params[:page]).per(PER_PAGE)
+        @sounds = current_user.sounds.order("created_at DESC").page(params[:page]).per(PER_PAGE)
         flash.now[:alert] = "Your sound could not be saved."
         format.js { render :index }
       end
